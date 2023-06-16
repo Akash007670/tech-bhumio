@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import InventoryModal from "./InventoryModal";
 import Table from "./Table";
 
 const InventoryTable = ({ data, setData }) => {
@@ -23,6 +24,11 @@ const InventoryTable = ({ data, setData }) => {
         placeholder="Search Items"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
+      />
+      <InventoryModal
+        filteredData={filteredData}
+        data={data}
+        setData={setData}
       />
       {data.length > 0 && (
         <Table
