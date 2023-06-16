@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 import "primeicons/primeicons.css";
 //theme
@@ -10,7 +10,23 @@ import InventoryTable from "./components/InventoryTable";
 
 function App() {
   const [data, setData] = useState([]);
-  const [isUploaded, setIsUploaded] = useState(false);
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("csvData"));
+    if (storedData) {
+      setData((prev) => [...prev, ...storedData]);
+    }
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("csvData", JSON.stringify(data));
+  }, [data]);
+  const [isUploaded, setIsUploaded] = useState(() => {
+    return localStorage.getItem("isUploaded") === "true";
+  });
+
+  useEffect(() => {
+    localStorage.setItem("isUploaded", isUploaded);
+  }, [isUploaded]);
   return (
     <div className="App">
       <div
