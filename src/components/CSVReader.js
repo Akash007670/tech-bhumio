@@ -2,8 +2,16 @@ import React from "react";
 import { useCSVReader, usePapaParse } from "react-papaparse";
 import sampleFile from "../inventory.csv";
 import { v4 as uuidv4 } from "uuid";
+import { Button } from "primereact/button";
 
-export default function CSVReader({ setData, setIsUploaded }) {
+export default function CSVReader({
+  setData,
+  setIsUploaded,
+  setShowModal,
+  isUploaded,
+  showSuccess,
+  showRemoveSuccess,
+}) {
   const { CSVReader } = useCSVReader();
   const { readRemoteFile } = usePapaParse();
 
@@ -45,10 +53,13 @@ export default function CSVReader({ setData, setIsUploaded }) {
     );
     setData(result);
     setIsUploaded(true);
+    showSuccess();
   };
   const errorHandler = (err) => {
     console.log(err);
     setIsUploaded(false);
+    setData([]);
+    setShowModal(false);
   };
 
   //Handling sample file in case user does not have required csv
@@ -72,6 +83,7 @@ export default function CSVReader({ setData, setIsUploaded }) {
         );
         setData(result);
         setIsUploaded(true);
+        showSuccess();
       },
     });
   };
@@ -79,29 +91,64 @@ export default function CSVReader({ setData, setIsUploaded }) {
   const handleRemove = () => {
     setData([]);
     setIsUploaded(false);
+    setShowModal(false);
+    showRemoveSuccess();
   };
 
   return (
-    <CSVReader onUploadAccepted={uploadHandler} onUploadRejected={errorHandler}>
-      {({ getRootProps, acceptedFile, ProgressBar, getRemoveFileProps }) => (
+    <CSVReader
+      onUploadAccepted={uploadHandler}
+      onUploadRejected={errorHandler}
+      onDragOver={(event) => {
+        event.preventDefault();
+      }}
+      onDragLeave={(event) => {
+        event.preventDefault();
+      }}
+    >
+      {({ getRootProps, acceptedFile, getRemoveFileProps }) => (
         <>
-          <div>
-            <button type="button" {...getRootProps()}>
-              Browse file
-            </button>
-            <button type="button" onClick={handleSampleFile}>
-              Load sample data
-            </button>
-            <div>{acceptedFile && acceptedFile.name}</div>
-            <button
-              type="button"
+          <Button
+            label="Use Sample File"
+            size="small"
+            severity="info"
+            onClick={handleSampleFile}
+            icon="pi pi-arrow-right"
+            iconPos="right"
+            className="sample-file-btn"
+            disabled={isUploaded}
+          />
+          <div {...getRootProps()} className="csv-reader-wrapper">
+            {acceptedFile ? (
+              <>
+                <div>
+                  <div>
+                    <span>{acceptedFile.name}</span>
+                  </div>
+                  <div
+                    {...getRemoveFileProps()}
+                    onMouseOver={(event) => {
+                      event.preventDefault();
+                    }}
+                    onMouseOut={(event) => {
+                      event.preventDefault();
+                    }}
+                  ></div>
+                </div>
+              </>
+            ) : (
+              "Drop CSV file here or click to upload"
+            )}
+          </div>
+          <div className="remove-btn-wrapper">
+            <Button
+              label="Remove"
+              size="small"
+              severity="danger"
               {...getRemoveFileProps()}
               onClick={handleRemove}
-            >
-              Remove
-            </button>
+            />
           </div>
-          <ProgressBar />
         </>
       )}
     </CSVReader>
