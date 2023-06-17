@@ -1,17 +1,17 @@
-import React, { useState } from "react";
+import React from "react";
 import { Dialog } from "primereact/dialog";
 import { DataTable } from "primereact/datatable";
 import { Button } from "primereact/button";
 import { Column } from "primereact/column";
 import { InputText } from "primereact/inputtext";
 
-const InventoryModal = ({ filteredData, setData, data }) => {
-  const [showModal, setShowModal] = useState(false);
-
-  const openModal = () => {
-    setShowModal(true);
-  };
-
+const InventoryModal = ({
+  filteredData,
+  setData,
+  data,
+  showModal,
+  setShowModal,
+}) => {
   const locaStockEditor = (options) => {
     return (
       <InputText
@@ -51,12 +51,10 @@ const InventoryModal = ({ filteredData, setData, data }) => {
 
   return (
     <div>
-      <Button label="Update Inventory" onClick={openModal} />
-
       <Dialog
         header="Update Inventory"
         visible={showModal}
-        style={{ width: "90vw" }}
+        style={{ width: "67vw" }}
         onHide={() => setShowModal(false)}
       >
         <div>
@@ -84,14 +82,13 @@ const InventoryModal = ({ filteredData, setData, data }) => {
             ></Column>
           </DataTable>
         </div>
-        <div style={{ marginTop: "20px" }}>
+        <div className="modal-btn-wrapper">
           <Button
             label="Close"
             severity="danger"
             rounded
             onClick={() => setShowModal(false)}
           />
-          <Button label="Success" severity="success" rounded />
         </div>
       </Dialog>
     </div>
