@@ -27,14 +27,17 @@ const InventoryTable = ({ data, setData }) => {
   }, [searchQuery, data]);
 
   const handleJsonToCSV = () => {
-    const jsonData = [...data];
-    let newData = jsonData.map((item) => {
-      delete item.id;
-      delete item.undefined;
-      return item;
+    let modifiedData = data.map((item) => {
+      let modifiedItem = { ...item }; // Create a copy of the item
+
+      delete modifiedItem.id; // Remove the 'id' property
+      delete modifiedItem.undefined; // Remove the 'undefined' property
+
+      return modifiedItem;
     });
-    let res = jsonToCSV(newData);
-    return res;
+
+    let csvContent = jsonToCSV(modifiedData);
+    return csvContent;
   };
 
   return (
