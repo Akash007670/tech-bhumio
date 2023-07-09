@@ -5,11 +5,13 @@ import { InputText } from "primereact/inputtext";
 import { Button } from "primereact/button";
 import { usePapaParse } from "react-papaparse";
 import { useCSVDownloader } from "react-papaparse";
+import GraphModal from "./GraphModal";
 
 const InventoryTable = ({ data, setData }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredData, setFilteredData] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [showGraphModal, setShowGraphModal] = useState(false);
   const { jsonToCSV } = usePapaParse();
   const { CSVDownloader } = useCSVDownloader();
 
@@ -62,6 +64,12 @@ const InventoryTable = ({ data, setData }) => {
             icon="pi pi-download"
           />
         </CSVDownloader>
+        <Button
+          label="Inventory Graph"
+          size="small"
+          severity="info"
+          onClick={() => setShowGraphModal(true)}
+        />
       </div>
       <InventoryModal
         filteredData={filteredData}
@@ -69,6 +77,11 @@ const InventoryTable = ({ data, setData }) => {
         setData={setData}
         showModal={showModal}
         setShowModal={setShowModal}
+      />
+      <GraphModal
+        showGraphModal={showGraphModal}
+        setShowGraphModal={setShowGraphModal}
+        data={data}
       />
       <div className="main-table-wrapper">
         {data.length > 0 && (
