@@ -8,7 +8,7 @@ const GraphModal = ({ showGraphModal, setShowGraphModal, data }) => {
       <Dialog
         header="Inventory Graph"
         visible={showGraphModal}
-        style={{ width: "60vw", height: "35vw" }}
+        style={{ width: "60vw", height: "38vw" }}
         onHide={() => setShowGraphModal(false)}
       >
         <Graph graphData={data} />

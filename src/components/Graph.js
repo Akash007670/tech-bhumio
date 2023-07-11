@@ -1,4 +1,5 @@
 import React from "react";
+import { saveAs } from "file-saver";
 
 import {
   Chart as ChartJS,
@@ -10,6 +11,7 @@ import {
   Legend,
 } from "chart.js";
 import { Bar } from "react-chartjs-2";
+import { Button } from "primereact/button";
 
 ChartJS.register(
   CategoryScale,
@@ -77,6 +79,14 @@ const Graph = ({ graphData }) => {
     labels: labels,
     datasets: datasets,
   };
+
+  const downloadBarChartAsImage = () => {
+    const canvasSave = document.getElementById("inventoryChart");
+    if (canvasSave)
+      canvasSave.toBlob(function (blob) {
+        saveAs(blob, "chart.png");
+      });
+  };
   return (
     <div
       style={{
@@ -84,7 +94,23 @@ const Graph = ({ graphData }) => {
         height: "100%",
       }}
     >
-      <Bar options={options} data={chartData} />
+      <Bar id="inventoryChart" options={options} data={chartData} />
+      <div
+        style={{
+          display: "flex",
+          alignItems: "flex-end",
+          justifyContent: "flex-end",
+          marginTop: "10px",
+        }}
+      >
+        <Button
+          label="Download Chart"
+          size="small"
+          severity="info"
+          icon="pi pi-download"
+          onClick={downloadBarChartAsImage}
+        />
+      </div>
     </div>
   );
 };
