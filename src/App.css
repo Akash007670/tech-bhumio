@@ -140,3 +140,49 @@ body {
   margin-right: 20px;
   padding-right: 10px;
 }
+
+/* sidebar primereact modifications */
+
+.p-sidebar .p-sidebar-header {
+  position: relative !important;
+  padding: 4px !important;
+}
+
+.p-sidebar-content {
+  padding: 4px !important;
+}
+
+.sidebar-header {
+  position: absolute;
+  top: 5px;
+  font-size: 22px;
+  font-weight: 600;
+  left: 10px;
+}
+
+.embeded-link-wrapper {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  height: 140px;
+  width: 95%;
+  margin-left: 6px;
+  margin-top: 30px;
+  border-radius: 4px;
+  padding: 20px;
+  border: 1.6px dashed rgb(167, 165, 165);
+}
+
+.copy-btn {
+  display: flex;
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  outline: none;
+  border: none;
+  position: absolute;
+  right: 10px;
+}
